@@ -28,7 +28,6 @@ using namespace std;
 #define S		second
 #define TR(container,it) for(typeof(container.begin()) it = container.begin();it != container.end(); it++)
 
-
 /* Container's */
 
 #define	VI		vector<LL>
@@ -218,7 +217,7 @@ void suggest(LL x)
 
 			REP(i,5)
 			{
-				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0) // ??
+				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0)
 					similarMovieRating_noOfGenreMatching[data[similarPeople[j]][k].F]++;
 			}
 
@@ -226,7 +225,7 @@ void suggest(LL x)
 
 			REP(i,3)
 			{
-				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0) // ??
+				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0)
 					similarMovieRating_noOfMaximumMatchingGenre[data[similarPeople[j]][k].F]+=(3-i);
 			}
 		}
@@ -273,19 +272,11 @@ void suggest(LL x)
 int main()
 {
 	parse();
-	while(1)
-	{
 	cout << "Enter Used Id: ";
 	LL x;
 	SI(x);
 	cout<<endl;
 	cout<<"Suggested Movies list:"<<endl;
 	suggest(x);
-	}
-	/*cout << endl;
-	cout << "already watched" << endl;
-	cout << endl;
-	REP(i,data[x].size())
-		cout << minfo[data[x][i].F].name << endl;*/
 	return 0;
 }
