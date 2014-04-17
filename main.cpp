@@ -28,6 +28,7 @@ using namespace std;
 #define S		second
 #define TR(container,it) for(typeof(container.begin()) it = container.begin();it != container.end(); it++)
 
+
 /* Container's */
 
 #define	VI		vector<LL>
@@ -47,13 +48,15 @@ typedef struct user
 typedef struct movie
 {
 	string name;
+	string url;
 	vector<bool> genre;
 }movie;
 map<LL,vector<pair<LL,LL> > > data; // to be populated from u.data
 vector<user> uinfo; // to be populated from u.user
 map<LL,VI> age_id; // mapping of age to user_id
 vector<movie> minfo; // to be populated from u.item
-LL matrix[1005][1700];
+VVI matrix;
+LL USERS,MOVIES;
 VI similarPeople;
 
 #include "DotProduct.h"
@@ -92,14 +95,16 @@ int SToN ( const string &Text )
 void parse()
 {
 	ifstream file("./input/u.data");
-	memset(matrix,-1,sizeof(matrix));
+	//memset(matrix,-1,sizeof(matrix));
 	vector<string> temp;
 	while(!file.eof())
 	{
 		string t=raw_input1(file);
+		//cout << t << endl;
 		if(t.size()>0)
 		{
 			temp=split(t,"\t");
+			//cout << temp[0] << " " << temp[1] << " " << temp[2] << endl;
 			matrix[SToN(temp[0])][SToN(temp[1])]=STN(temp[2]);
 			data[STN(temp[0])].PB(MP(STN(temp[1]),STN(temp[2])));
 		}
@@ -134,6 +139,7 @@ void parse()
 		{
 			temp=split(t,"|");
 			m.name=temp[1];
+			m.url=temp[4];
 			int j=0;
 			for(int i=5;i<temp.size();i++)
 			{
@@ -181,10 +187,10 @@ void suggest(LL x)
 	VP sort_genre(19,temp);
 
 	// using Heuristics
-	//accordingHeuristics(age,id);
+	accordingHeuristics(age,id);
 
 	//using CollaborativeFiltering
-	dotProduct(id);
+	//dotProduct(id);
 	LL l=data[id].size();
 	REP(i,l)
 		watched[data[id][i].F]=1;
@@ -217,7 +223,7 @@ void suggest(LL x)
 
 			REP(i,5)
 			{
-				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0)
+				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0) // ??
 					similarMovieRating_noOfGenreMatching[data[similarPeople[j]][k].F]++;
 			}
 
@@ -225,7 +231,7 @@ void suggest(LL x)
 
 			REP(i,3)
 			{
-				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0)
+				if(minfo[data[similarPeople[j]][k].F].genre[sort_genre[i].S]>0) // ??
 					similarMovieRating_noOfMaximumMatchingGenre[data[similarPeople[j]][k].F]+=(3-i);
 			}
 		}
@@ -267,16 +273,19 @@ void suggest(LL x)
 
 	LL l4=answer.size();
 	for(LL i=0;i<min(20LL,l4);i++)
-		cout << minfo[answer[i].S].name << endl;
+		cout << answer[i].S << " " << minfo[answer[i].S].name << " " << minfo[answer[i].S].url << endl;
 }
-int main()
+int main(int argc, char *argv[])
 {
-	parse();
-	cout << "Enter Used Id: ";
 	LL x;
-	SI(x);
-	cout<<endl;
-	cout<<"Suggested Movies list:"<<endl;
+	//SI(x);
+	USERS=atoi(argv[2]);
+	MOVIES=atoi(argv[3]);
+	matrix.resize(USERS+5);
+	REP(i,USERS+5)
+		matrix[i].resize(MOVIES+5,-1);
+	parse();
+	x=atoi(argv[1]);
 	suggest(x);
 	return 0;
 }

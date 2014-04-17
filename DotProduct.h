@@ -1,5 +1,3 @@
-#define users 943
-#define movies 1682
 bool foo2(pair<LL,double> a, pair<LL,double> b)
 {
 	return (a.S>b.S);
@@ -10,14 +8,14 @@ void dotProduct(LL userId)
 	vector< pair<LL,double> > dotproducts;
 	LL num,den1,den2;
 	double dp;
-	for(LL i=1;i<=users;i++)
+	for(LL i=1;i<=USERS;i++)
 	{	
 		num=0;
 		den1=0;
 		den2=0;
 		if(i!=userId)
 		{
-			for(LL j=1;j<=movies;j++)
+			for(LL j=1;j<=MOVIES;j++)
 			{
 				if(matrix[userId][j]!=-1 && matrix[i][j]!=-1)
 				{
