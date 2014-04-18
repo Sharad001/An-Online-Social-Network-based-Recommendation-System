@@ -1,0 +1,13 @@
+1. In folder recommendation_system
+- build  using "make"
+
+2. In recommendation_system/tools
+- build using "make"
+
+3.In recommendation_system/Movie_recommendation/basicMF
+- build  using "make"
+- run the run.sh file
+
+output is recommendation.txt file having 20 recommended movies for each user, in the same folder mentioned above
+
+
